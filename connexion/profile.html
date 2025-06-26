@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profil</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Bonjour, <span id="userName"></span> !</h2>
+        <p>Email : <strong id="userEmail"></strong></p>
+        <p>Status : <span id="emailStatus"></span></p>
+        <button id="logoutBtn" class="btn">Déconnexion</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+    <script src="script.js"></script>
+    <script>
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                document.getElementById("userEmail").textContent = user.email;
+                document.getElementById("userName").textContent = user.displayName || "Utilisateur";
+                document.getElementById("emailStatus").textContent = user.emailVerified ? "✅ Vérifié" : "❌ Non vérifié";
+                
+                // Protection
+                if (!user.emailVerified) {
+                    alert("Vérifie ton email pour accéder au profil !");
+                    window.location.href = "login.html";
+                }
+            } else {
+                window.location.href = "login.html";
+            }
+        });
+
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            firebase.auth().signOut().then(() => {
+                window.location.href = "index.html";
+            });
+        });
+    </script>
+</body>
+</html>

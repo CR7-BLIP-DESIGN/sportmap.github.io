@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vidéo - SportMap</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Styles spécifiques à la page vidéo */
+        .video-feature-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .video-description {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .video-highlights {
+            margin-top: 1.5rem;
+        }
+        
+        .video-highlights li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .video-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .video-feature-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>SportMap <span class="logo-icon">🏃‍♂️📍</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="video.html" class="active">Vidéo</a></li>
+                    <li><a href="map.html">Carte</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="hero">
+            <h2>Découvrez SportMap en vidéo</h2>
+            <p>Tour d'horizon des fonctionnalités clés en 2 minutes</p>
+        </section>
+        
+        <section>
+            <div class="video-feature-container">
+                <div>
+                    <!-- Player vidéo compact -->
+                    <div class="video-container" style="max-width: 600px; margin: 0 auto;">
+                        <video controls width="100%" poster="assets/images/video-thumbnail.jpg">
+                            <source src="assets/vidéos/presentation.mp4" type="video/mp4">
+                            Votre navigateur ne supporte pas les vidéos HTML5.
+                        </video>
+                        <div class="video-meta">
+                            <span>Durée : 2:15</span>
+                            <span>Vues : 1,245</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-description">
+                    <h3>Ce que vous allez découvrir</h3>
+                    <ul class="video-highlights">
+                        <li>✅ Trouver des terrains près de chez vous en 3 clics</li>
+                        <li>✅ Consulter les horaires d'affluence en temps réel</li>
+                        <li>✅ Ajouter de nouveaux spots sportifs</li>
+                        <li>✅ Partager vos découvertes avec la communauté</li>
+                    </ul>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        <a href="map.html" class="btn">Essayer maintenant</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-container">
+                <div class="card">
+                    <h3><span>📱</span> Tutoriels complets</h3>
+                    <p>Maîtrisez toutes les fonctionnalités avec nos guides pas à pas.</p>
+                    <ul style="margin-top: 0.8rem;">
+                        <li>Premiers pas avec SportMap</li>
+                        <li>Optimiser sa recherche</li>
+                        <li>Contribuer à la communauté</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3><span>💡</span> Astuces pratiques</h3>
+                    <p>Découvrez comment tirer le meilleur parti de l'application :</p>
+                    <ul style="margin-top: 0.8rem;">
+                        <li>Enregistrer vos terrains favoris</li>
+                        <li>Créer des itinéraires sportifs</li>
+                        <li>Partager des photos des équipements</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3><span>📅</span> Prochaines fonctionnalités</h3>
+                    <p>Ce qui arrive bientôt :</p>
+                    <ul style="margin-top: 0.8rem;">
+                        <li>Réservation de créneaux</li>
+                        <li>Défis communautaires</li>
+                        <li>Météo intégrée</li>
+                    </ul>
+                    <a href="contact.html" class="btn" style="margin-top: 1rem;">Donnez votre avis</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>© 2023 SportMap - Tous droits réservés</p>
+            <div style="margin-top: 1rem;">
+                <a href="#" style="color: white; margin-right: 1rem;">Mentions légales</a>
+                <a href="#" style="color: white;">Confidentialité</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

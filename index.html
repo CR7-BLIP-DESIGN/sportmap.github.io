@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Site d'Authentification</title>
+    <style>
+        /* Styles de base */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .switch-form {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .switch-form a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .message {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="loginContainer">
+        <h1>Connexion</h1>
+        <div id="message" class="message"></div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Mot de passe</label>
+                <input type="password" id="loginPassword" required>
+            </div>
+            <button type="submit">Se connecter</button>
+        </form>
+        <div class="switch-form">
+            <p>Pas de compte ? <a href="#" id="showRegister">S'inscrire</a></p>
+        </div>
+    </div>
+
+    <div class="container" id="registerContainer" style="display: none;">
+        <h1>Inscription</h1>
+        <div id="registerMessage" class="message"></div>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="registerName">Nom complet</label>
+                <input type="text" id="registerName" required>
+            </div>
+            <div class="form-group">
+                <label for="registerEmail">Email</label>
+                <input type="email" id="registerEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="registerPassword">Mot de passe</label>
+                <input type="password" id="registerPassword" required>
+            </div>
+            <div class="form-group">
+                <label for="registerConfirm">Confirmer le mot de passe</label>
+                <input type="password" id="registerConfirm" required>
+            </div>
+            <button type="submit">S'inscrire</button>
+        </form>
+        <div class="switch-form">
+            <p>Déjà un compte ? <a href="#" id="showLogin">Se connecter</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Stockage simple des utilisateurs
+        if (!localStorage.getItem('users')) {
+            localStorage.setItem('users', JSON.stringify([]));
+        }
+
+        // Basculer entre connexion et inscription
+        document.getElementById('showRegister').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('registerContainer').style.display = 'block';
+        });
+
+        document.getElementById('showLogin').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('registerContainer').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'block';
+        });
+
+        // Gestion de l'inscription
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirm = document.getElementById('registerConfirm').value;
+            const message = document.getElementById('registerMessage');
+            
+            // Validation simple
+            if (password !== confirm) {
+                message.textContent = "Les mots de passe ne correspondent pas";
+                message.className = "message error";
+                message.style.display = "block";
+                return;
+            }
+            
+            if (password.length < 6) {
+                message.textContent = "Le mot de passe doit faire au moins 6 caractères";
+                message.className = "message error";
+                message.style.display = "block";
+                return;
+            }
+            
+            // Vérifier si l'email existe déjà
+            const users = JSON.parse(localStorage.getItem('users'));
+            const userExists = users.some(user => user.email === email);
+            
+            if (userExists) {
+                message.textContent = "Cet email est déjà utilisé";
+                message.className = "message error";
+                message.style.display = "block";
+                return;
+            }
+            
+            // Ajouter le nouvel utilisateur
+            users.push({ name, email, password });
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Afficher le message de succès
+            message.textContent = "Inscription réussie ! Vous pouvez maintenant vous connecter.";
+            message.className = "message success";
+            message.style.display = "block";
+            
+            // Réinitialiser le formulaire
+            this.reset();
+            
+            // Basculer vers la page de connexion après 3 secondes
+            setTimeout(() => {
+                document.getElementById('registerContainer').style.display = 'none';
+                document.getElementById('loginContainer').style.display = 'block';
+                document.getElementById('registerMessage').style.display = 'none';
+            }, 3000);
+        });
+
+        // Gestion de la connexion
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const message = document.getElementById('message');
+            
+            // Vérifier les informations
+            const users = JSON.parse(localStorage.getItem('users'));
+            const user = users.find(user => user.email === email && user.password === password);
+            
+            if (!user) {
+                message.textContent = "Email ou mot de passe incorrect";
+                message.className = "message error";
+                message.style.display = "block";
+                return;
+            }
+            
+            // Connexion réussie
+            message.textContent = "Connexion réussie ! Redirection...";
+            message.className = "message success";
+            message.style.display = "block";
+            
+            // Stocker l'utilisateur connecté
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            
+            // Redirection (vous pouvez changer l'URL)
+            setTimeout(() => {
+                window.location.href = "bienvenue.html";
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

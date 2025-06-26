@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - SportMap</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Styles spécifiques pour la page de contact */
+        .contact-confirmation {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>SportMap <span class="logo-icon">🏃‍♂️📍</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="video.html">Vidéo</a></li>
+                    <li><a href="map.html">Carte</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="hero">
+            <h2>Contactez l'équipe SportMap</h2>
+            <p>Nous sommes à votre écoute pour toutes vos questions et suggestions</p>
+        </section>
+        
+        <div class="contact-grid">
+            <section class="card">
+                <h3><span>📝</span> Formulaire de contact</h3>
+                
+                <!-- Message de confirmation (caché par défaut) -->
+                <div id="confirmationMessage" class="contact-confirmation">
+                    Merci ! Votre message a bien été envoyé.
+                </div>
+                
+                <!-- Formulaire avec mise en page préservée -->
+                <form id="contactForm" action="https://formspree.io/f/mzzgvkev" method="POST">
+                    <div class="form-group">
+                        <label for="name">Votre nom</label>
+                        <input type="text" id="name" name="name" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Votre email</label>
+                        <input type="email" id="email" name="_replyto" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Sujet</label>
+                        <select id="subject" name="subject" class="form-control">
+                            <option value="question">Question générale</option>
+                            <option value="bug">Signaler un problème</option>
+                            <option value="suggestion">Suggestion d'amélioration</option>
+                            <option value="partnership">Partenariat</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required class="form-control"></textarea>
+                    </div>
+                    
+                    <input type="hidden" name="_next" value="https://votresite.com/contact.html">
+                    
+                    <button type="submit" class="btn">Envoyer le message</button>
+                </form>
+            </section>
+            
+            <section class="card">
+                <h3><span>📱</span> Autres contacts</h3>
+                
+                <div class="contact-method">
+                    <h4>Par email</h4>
+                    <p>contact@sportmap.fr</p>
+                </div>
+                
+                <div class="contact-method">
+                    <h4>Réseaux sociaux</h4>
+                    <p>Suivez-nous pour les dernières actualités</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">Instagram</a>
+                        <a href="#" class="social-link">Facebook</a>
+                    </div>
+                </div>
+                
+                <div class="contact-method">
+                    <h4>Contribuer au projet</h4>
+                    <p>SportMap évolue grâce à vous :</p>
+                    <ul>
+                        <li>Proposer un nouveau terrain</li>
+                        <li>Corriger une information</li>
+                        <li>Partager vos idées</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>© 2023 SportMap - Tous droits réservés</p>
+            <p>Rejoignez notre communauté de sportifs passionnés</p>
+        </div>
+    </footer>
+
+    <!-- Script pour gérer l'envoi du formulaire -->
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            fetch(this.action, {
+                method: 'POST',
+                body: new FormData(this),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Affiche le message de confirmation
+                    document.getElementById('confirmationMessage').style.display = 'block';
+                    
+                    // Réinitialise le formulaire
+                    this.reset();
+                    
+                    // Cache le message après 5 secondes
+                    setTimeout(() => {
+                        document.getElementById('confirmationMessage').style.display = 'none';
+                    }, 5000);
+                } else {
+                    throw new Error('Erreur réseau');
+                }
+            })
+            .catch(error => {
+                alert("Une erreur s'est produite. Veuillez réessayer plus tard.");
+            });
+        });
+    </script>
+</body>
+</html>

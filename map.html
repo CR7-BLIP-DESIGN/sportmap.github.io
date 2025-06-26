@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte - SportMap</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>SportMap <span class="logo-icon">🏃‍♂️📍</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="video.html">Vidéo</a></li>
+                    <li><a href="map.html" class="active">Carte</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="hero">
+            <h2>Carte interactive des terrains de sport</h2>
+            <p>Trouvez les meilleurs endroits pour pratiquer près de chez vous</p>
+        </section>
+        
+        <section>
+            <div class="map-container" id="map"></div>
+            
+            <div class="card-container">
+                <div class="card">
+                    <h3><span>🔍</span> Filtres</h3>
+                    <form id="filter-form">
+                        <div class="form-group">
+                            <label for="sport-type">Type de sport</label>
+                            <select id="sport-type">
+                                <option value="all">Tous les sports</option>
+                                <option value="football">Football</option>
+                                <option value="basketball">Basketball</option>
+                                <option value="tennis">Tennis</option>
+                                <option value="running">Course à pied</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn">Appliquer</button>
+                    </form>
+                </div>
+                
+                <div class="card">
+                    <h3><span>➕</span> Ajouter un terrain</h3>
+                    <p>Vous connaissez un terrain qui n'apparaît pas sur la carte ?</p>
+                    <a href="contact.html" class="btn">Proposer un ajout</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>© 2023 SportMap - Tous droits réservés</p>
+            <p>Rejoignez notre communauté de sportifs passionnés</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Initialisation de la carte
+        const map = L.map('map').setView([48.8566, 2.3522], 13); // Paris par défaut
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // Géolocalisation
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                map.setView([position.coords.latitude, position.coords.longitude], 15);
+            });
+        }
+        
+        // Exemple de marqueurs (à remplacer par vos données réelles)
+        L.marker([48.8566, 2.3522]).addTo(map)
+            .bindPopup("Terrain de football - Parc des Princes");
+        
+        L.marker([48.8584, 2.2945]).addTo(map)
+            .bindPopup("Court de tennis - Jardin du Luxembourg");
+    </script>
+</body>
+</html>

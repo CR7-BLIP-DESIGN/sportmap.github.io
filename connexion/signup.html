@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inscription</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <h2>Inscription</h2>
+        <form id="signupForm">
+            <input type="text" id="name" placeholder="Nom complet" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Mot de passe" required>
+            <button type="submit" class="btn">S'inscrire</button>
+        </form>
+        <p id="errorMessage" class="error"></p>
+        <p>Déjà un compte ? <a href="login.html">Connectez-vous</a></p>
+    </div>
+
+    <!-- Firebase + EmailJS -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Initialisation EmailJS (REMPLACE AVEC TES INFOS)
+        emailjs.init("ton_user_id_emailjs");
+
+        document.getElementById("signupForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const name = document.getElementById("name").value;
+            const errorMessage = document.getElementById("errorMessage");
+
+            try {
+                // Création du compte Firebase
+                const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                
+                // Envoi email de vérification
+                await userCredential.user.sendEmailVerification();
+                
+                // Envoi email de bienvenue
+                await emailjs.send("ton_service_id", "ton_template_id", {
+                    to_email: email,
+                    user_name: name
+                });
+
+                alert("Inscription réussie ! Vérifie tes emails (regarde les spams).");
+                window.location.href = "login.html";
+                
+            } catch (error) {
+                errorMessage.textContent = "Erreur : " + error.message;
+            }
+        });
+    </script>
+</body>
+</html>

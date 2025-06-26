@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportMap | Plateforme Sportive</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb; /* Bleu professionnel */
+            --secondary: #1e40af; 
+            --accent: #f59e0b; /* Orange pour les CTA */
+            --dark: #1f2937;
+            --light: #f3f4f6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Navigation moderne */
+        nav {
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo i {
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Contenu principal */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        /* Cartes de contenu */
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        /* Section Map */
+        #map-container {
+            height: 600px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        /* Section Vidéos */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .video-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Formulaire de contact */
+        .contact-form {
+            max-width: 600px;
+            margin: 2rem auto 0;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        /* Pied de page */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation élégante -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-map-marked-alt"></i>
+                <span>SportMap</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" onclick="showPage('accueil')">Accueil</a>
+                <a href="#" onclick="showPage('map')">Carte</a>
+                <a href="#" onclick="showPage('videos')">Vidéos</a>
+                <a href="#" onclick="showPage('contact')">Contact</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Contenu principal -->
+    <main>
+        <!-- Page Accueil -->
+        <section id="accueil" class="page active">
+            <h1>Bienvenue sur SportMap</h1>
+            <p>Votre plateforme premium pour découvrir les meilleurs spots sportifs et événements près de chez vous.</p>
+            
+            <div class="card">
+                <h2><i class="fas fa-info-circle"></i> À propos</h2>
+                <p>SportMap révolutionne votre expérience sportive en vous connectant aux infrastructures et communautés locales.</p>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button onclick="showPage('map')"><i class="fas fa-map"></i> Explorer la carte</button>
+                    <button onclick="showPage('videos')"><i class="fas fa-play"></i> Voir les vidéos</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Page Carte -->
+        <section id="map" class="page">
+            <h1><i class="fas fa-map-marked-alt"></i> Carte Interactive</h1>
+            <p>Découvrez les installations sportives près de votre position.</p>
+            
+            <div class="card">
+                <div id="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.991625693759!2d2.292292615509614!3d48.8583700792875!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sTour%20Eiffel!5e0!3m2!1sfr!2sfr!4v1620000000000!5m2!1sfr!2sfr" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Page Vidéos -->
+        <section id="videos" class="page">
+            <h1><i class="fas fa-play-circle"></i> Nos Vidéos</h1>
+            <p>Découvrez nos meilleurs contenus vidéo.</p>
+            
+            <div class="video-grid">
+                <div class="video-card">
+                    <iframe width="100%" height="200" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div style="padding: 1rem;">
+                        <h3>Titre Vidéo 1</h3>
+                        <p>Description courte de la vidéo</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <iframe width="100%" height="200" src="https://www.youtube.com/embed/9bZkp7q19f0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div style="padding: 1rem;">
+                        <h3>Titre Vidéo 2</h3>
+                        <p>Description courte de la vidéo</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Page Contact -->
+        <section id="contact" class="page">
+            <h1><i class="fas fa-envelope"></i> Contactez-nous</h1>
+            <p>Une question ? Notre équipe vous répond sous 24h.</p>
+            
+            <div class="card">
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Nom complet</label>
+                        <input type="text" id="name" placeholder="Votre nom" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="votre@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" rows="5" placeholder="Votre message..." required></textarea>
+                    </div>
+                    
+                    <button type="submit"><i class="fas fa-paper-plane"></i> Envoyer</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Pied de page professionnel -->
+    <footer>
+        <div class="logo" style="color: white; justify-content: center;">
+            <i class="fas fa-map-marked-alt"></i>
+            <span>SportMap</span>
+        </div>
+        
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+        
+        <p>&copy; 2023 SportMap. Tous droits réservés.</p>
+    </footer>
+    
+    <script>
+        // Fonction pour changer de page avec animation
+        function showPage(pageId) {
+            // Désactive tous les liens
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.style.color = '';
+            });
+            
+            // Active le lien cliqué
+            event.target.style.color = '#2563eb';
+            
+            // Cache toutes les pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Affiche la page sélectionnée
+            document.getElementById(pageId).classList.add('active');
+        }
+        
+        // Simulation d'envoi de formulaire
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Merci pour votre message ! Nous vous répondrons bientôt.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
